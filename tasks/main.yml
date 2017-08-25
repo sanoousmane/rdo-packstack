@@ -1,0 +1,50 @@
+---
+# tasks file for rdo-packstack
+
+  - name: disable firewalld
+    service:
+      name: firewalld
+      enabled: no
+
+  - name: stop firewalld
+    service:
+      name: firewalld
+      state: stopped
+ 
+  - name: disabled NetworkManager
+    service:
+      name: NetworkManager
+      enabled: no
+
+  - name: stop NetworkManager
+    service: 
+      name: NetworkManager
+      state: stopped
+
+  - name: enable Network
+    service: 
+      name: network
+      enabled: yes
+
+  - name: start Network
+    service:
+      name: network
+      state: started
+
+  - name: install openstack-packstack release
+    yum: name={{ item }} state=latest
+    with_items:
+      - centos-release-openstack-ocata
+
+  - name: server update
+    yum:
+      name: '*'
+      state: latest
+
+  - name: install openstack-packstack
+    yum: name={{ item }} state=present
+    with_items:
+      - openstack-packstack
+
+  - name: deploy packstack
+    command: packstack --allinone

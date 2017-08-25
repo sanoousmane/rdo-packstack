@@ -1,0 +1,5 @@
+---
+- hosts: openstack
+  remote_user: root
+  roles:
+    - rdo-packstack
